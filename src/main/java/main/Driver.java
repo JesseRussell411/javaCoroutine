@@ -12,14 +12,13 @@ package main;
 public class Driver {
     public static void main(String[] args) throws InterruptedException{
         Koroutine<Integer> testRoutine = new Koroutine<Integer>((yield) -> {
-        
-            int count = 0;
-            while(true){
-                yield.accept(count++);
+            for(int i = 0; i < 4; ++i){
+                yield.accept(i);
             }
         });
-        while(true){
-            System.out.println(testRoutine.next());
+        testRoutine.start();
+        while(testRoutine.notComplete()){
+            System.out.println(testRoutine.await());
             Thread.sleep(800);
         }
     }
